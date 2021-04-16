@@ -1,0 +1,50 @@
+image: accordo/lambda:node8
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          caches:
+            - node
+            - sonarcloud
+            - node-scanner
+          script:
+            - npm install
+            - npm run lint
+            - npm run test:coverage
+            - npm install -g sonarqube-scanner
+            - sonar-scanner -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.projectVersion=$BITBUCKET_BUILD_NUMBER
+            # - bash ./scripts/cloneDeployScripts.sh
+            # - bash ./deployment/bbucket/uploadCoverageReport.sh
+            # - bash ./deployment/bbucket/publishCoverageReport.sh
+
+  branches:
+    master:
+      - step:
+          caches:
+            - node
+            - sonarcloud
+            - node-scanner
+          script:
+            - npm install
+            - npm run lint
+            - npm run test:coverage
+            - npm install -g sonarqube-scanner
+            - sonar-scanner -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.projectVersion=$BITBUCKET_BUILD_NUMBER
+            - bash ./scripts/publish.sh
+  custom:
+    publish-new-version:
+      - step:
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run lint
+            - npm run test:coverage
+            - npm install -g sonarqube-scanner
+            - sonar-scanner -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.projectVersion=$BITBUCKET_BUILD_NUMBER
+            - bash ./scripts/publish.sh
+
+definitions:
+  caches:
+    sonarcloud: ~/.sonar/cache
+    node-scanner: ~/.sonar/native-sonar-scanner

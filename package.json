@@ -1,0 +1,61 @@
+{
+  "name": "@accordo-feed/azure-redis-cache-lib",
+  "version": "1.0.2",
+  "description": "Library for interacting with Azure Redis Cache",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "audit:resolve": "resolve-audit --ignoreLow",
+    "audit:check": "check-audit",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:coverage": "nyc mocha --recursive --timeout 15000",
+    "test:unit": "cross-env stage=dev mocha \"./src/**/*spec.js\" --timeout 15000",
+    "test:unit:coverage": "cross-env stage=dev nyc mocha \"./src/**/*spec.js\" --timeout 15000",
+    "test:unit:report": "cross-env stage=dev mocha \"./src/**/*spec.js\" --timeout 15000 --reporter mocha-junit-reporter --reporter-options testCaseSwitchClassnameAndName=true,mochaFile=./test-reports/unit.xml",
+    "test:component": "cross-env stage=dev mocha \"./test/component/**/*spec.js\" --timeout 15000",
+    "test:component:report": "cross-env stage=dev mocha \"./test/component/**/*spec.js\" --timeout 15000 --reporter mocha-junit-reporter --reporter-options testCaseSwitchClassnameAndName=true,mochaFile=./test-reports/component.xml",
+    "test:integration": "cross-env stage=dev mocha \"./test/integration/*spec.js\" --timeout 15000",
+    "test:integration:report": "cross-env stage=dev mocha \"./test/integration/*spec.js\" --timeout 15000 --reporter mocha-junit-reporter --reporter-options testCaseSwitchClassnameAndName=true,mochaFile=./test-reports/integration.xml",
+    "bootstrap": "aws s3 cp s3://accordo.envs/azure-redis-cache-lib.env .",
+    "bootstrap:update": "aws s3 cp ./azure-redis-cache-lib.env s3://accordo.envs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/accordogroup/azure-redis-cache-lib.git"
+  },
+  "keywords": [
+    "Redis",
+    "Azure",
+    "Cache"
+  ],
+  "author": "Daniel Salgado",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/accordogroup/accordo-feed-azure-redis-cache-lib#readme",
+  "dependencies": {
+    "redis": "2.8.0",
+    "zlib": "1.0.5"
+  },
+  "devDependencies": {
+    "chai": "4.2.0",
+    "cross-env": "5.2.0",
+    "env2": "2.2.2",
+    "eslint": "5.7.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-config-prettier": "4.1.0",
+    "eslint-plugin-cucumber": "1.2.0",
+    "eslint-plugin-import": "2.14.0",
+    "husky": "1.1.2",
+    "mocha": "5.2.0",
+    "mocha-junit-reporter": "1.18.0",
+    "npm-audit-resolver": "1.3.3",
+    "nyc": "13.3.0",
+    "sinon": "7.0.0"
+  },
+  "distIncludes": [
+    "./src",
+    "./bin",
+    "./node_modules",
+    "./package.json"
+  ]
+}
